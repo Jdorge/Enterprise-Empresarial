@@ -1,11 +1,3 @@
-# 🏢 Enterprise Empresarial v3.0
-**Plataforma Unificada de Automação, IA e Monitoramento**
-
----
-
-## 📋 Visão Geral
-O **Enterprise Empresarial** é a evolução definitiva do ecossistema Nexus, unificando orquestração de Agentes IA, workflows n8n e observabilidade total em uma arquitetura modular e escalável.
-
 ### 🎯 Pilares do Sistema
 1.  **Inteligência Artificial (`enterprise-ecosystem/`)**: Agentes autônomos, MCP e integração LLM.
 2.  **Automação de Processos (`n8n-workflows/`)**: Fluxos de trabalho empresariais (Comercial, Financeiro, Ops).
