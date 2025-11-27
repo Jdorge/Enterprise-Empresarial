@@ -1,0 +1,81 @@
+# ============================================
+# ENVIRONMENT & SECRETS
+# ============================================
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+*.p12
+secrets/
+credentials/
+
+# ============================================
+# DATA & LOGS
+# ============================================
+logs/
+*.log
+data/
+*.sql
+*.sqlite
+*.db
+
+# ============================================
+# DOCKER & CONTAINERS
+# ============================================
+docker-compose.override.yml
+.dockerignore
+
+# ============================================
+# NODE & PYTHON
+# ============================================
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+ENV/
+
+# ============================================
+# IDE & EDITORS
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ============================================
+# BACKUPS & TEMPORARY
+# ============================================
+*.backup
+*.bak
+*.tmp
+tmp/
+temp/
+backup/
+backups/
+
+# ============================================
+# OS SPECIFIC
+# ============================================
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# ============================================
+# PROJECT SPECIFIC
+# ============================================
+CLEANUP_TEMP*/
+migration-backup*/
+*.tar.gz
+*.zip

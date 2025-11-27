@@ -1,0 +1,173 @@
+version: "3.8"
+
+services:
+  # ============================================
+  # DATABASE
+  # ============================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: enterprise-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-enterprise_db}
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./database/init-scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - enterprise-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-admin}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================
+  # N8N AUTOMATION
+  # ============================================
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: enterprise-n8n
+    restart: unless-stopped
+    environment:
+      N8N_BASIC_AUTH_ACTIVE: "true"
+      N8N_BASIC_AUTH_USER: ${N8N_USER:-admin}
+      N8N_BASIC_AUTH_PASSWORD: ${N8N_PASSWORD}
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: postgres
+      DB_POSTGRESDB_DATABASE: ${POSTGRES_DB:-enterprise_db}
+      DB_POSTGRESDB_USER: ${POSTGRES_USER:-admin}
+      DB_POSTGRESDB_PASSWORD: ${POSTGRES_PASSWORD}
+      N8N_PORT: 5678
+      WEBHOOK_URL: ${N8N_WEBHOOK_URL:-http://localhost:5678}
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n-data:/home/node/.n8n
+      - ./n8n-workflows:/workflows
+    networks:
+      - enterprise-network
+    depends_on:
+      - postgres
+
+  # ============================================
+  # MONITORING - PROMETHEUS
+  # ============================================
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: enterprise-prometheus
+    restart: unless-stopped
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=30d"
+    volumes:
+      - ./monitoring/prometheus:/etc/prometheus
+      - prometheus-data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - enterprise-network
+
+  # ============================================
+  # MONITORING - GRAFANA
+  # ============================================
+  grafana:
+    image: grafana/grafana:latest
+    container_name: enterprise-grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
+      GF_SERVER_ROOT_URL: ${GRAFANA_URL:-http://localhost:3000}
+      GF_INSTALL_PLUGINS: grafana-piechart-panel
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+    ports:
+      - "3000:3000"
+    networks:
+      - enterprise-network
+    depends_on:
+      - prometheus
+      - postgres
+
+  # ============================================
+  # AI AGENTS - MCP SERVER
+  # ============================================
+  mcp-server:
+    build: ./enterprise-ecosystem/orchestration/mcp-server
+    container_name: enterprise-mcp
+    restart: unless-stopped
+    environment:
+      MCP_PORT: 8080
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-admin}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-enterprise_db}
+    ports:
+      - "8080:8080"
+    networks:
+      - enterprise-network
+    depends_on:
+      - postgres
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================
+  # AI AGENTS - TEMPORAL
+  # ============================================
+  temporal:
+    image: temporalio/auto-setup:latest
+    container_name: enterprise-temporal
+    restart: unless-stopped
+    environment:
+      - DB=postgresql
+      - DB_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER:-admin}
+      - POSTGRES_PWD=${POSTGRES_PASSWORD}
+      - POSTGRES_SEEDS=postgres
+    ports:
+      - "7233:7233"
+      - "8088:8088"
+    networks:
+      - enterprise-network
+    depends_on:
+      - postgres
+
+  # ============================================
+  # AI AGENTS - ROUTER
+  # ============================================
+  ai-router:
+    build: ./enterprise-ecosystem/agents
+    container_name: enterprise-ai-router
+    restart: unless-stopped
+    environment:
+      AGENT_TYPE: router
+      MCP_ENDPOINT: http://mcp-server:8080
+      TEMPORAL_ENDPOINT: temporal:7233
+      LOG_LEVEL: ${AGENT_LOG_LEVEL:-info}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-admin}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-enterprise_db}
+    volumes:
+      - ./logs/ai-agents:/var/log/agents
+    networks:
+      - enterprise-network
+    depends_on:
+      - mcp-server
+      - temporal
+
+volumes:
+  postgres-data:
+  n8n-data:
+  prometheus-data:
+  grafana-data:
+
+networks:
+  enterprise-network:
+    driver: bridge

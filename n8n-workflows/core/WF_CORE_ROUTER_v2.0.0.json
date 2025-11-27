@@ -1,0 +1,224 @@
+{
+  "name": "WF_CORE_ROUTER_v2.0.0",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "webhook/process-request",
+        "httpMethod": "POST",
+        "responseMode": "responseNode",
+        "responseData": "first"
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Validate Input Core\nconst body = $input.all().body;\n\nif (!body || !body.request_id) {\n  throw new Error('Invalid request: missing request_id');\n}\n\nif (!body.domain) {\n  throw new Error('Invalid request: missing domain');\n}\n\nreturn {\n  isValid: true,\n  request_id: body.request_id,\n  domain: body.domain.toLowerCase(),\n  timestamp: new Date().toISOString(),\n  data: body.data || {}\n};"
+      },
+      "id": "validate-input",
+      "name": "Validate Input Core",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.notion.com/v1/pages",
+        "authentication": "genericCredentialType",
+        "genericCredentialType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer ntn_m5282633359aVro3LlGESlWzZZNHwpjF2Mq1ixQdCayfWZ"
+            },
+            {
+              "name": "Notion-Version",
+              "value": "2022-06-28"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParametersJson": "{\n  \"parent\": {\"database_id\": \"[DATABASE_ID]\"},\n  \"properties\": {\n    \"Timestamp\": {\"date\": {\"start\": \"{{ new Date().toISOString() }}\"}},\n    \"WorkflowName\": {\"title\": [{\"text\": {\"content\": \"WF_CORE_ROUTER\"}}]},\n    \"Stage\": {\"select\": {\"name\": \"Entry\"}},\n    \"ExecutionID\": {\"rich_text\": [{\"text\": {\"content\": \"{{ $node[\\\"Validate Input Core\\\"].json.request_id }}\"}}]},\n    \"InputData\": {\"rich_text\": [{\"text\": {\"content\": \"{{ JSON.stringify($node[\\\"Validate Input Core\\\"].json.data) }}\"}}]},\n    \"Status\": {\"select\": {\"name\": \"Pending\"}},\n    \"Version\": {\"rich_text\": [{\"text\": {\"content\": \"2.0.0\"}}]}\n  }\n}"
+      },
+      "id": "log-entry",
+      "name": "Log Entry (Notion)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Classify Intent\nconst domain = $input.all().json.domain;\nconst intentMap = {\n  'leads': 'SW1_LEADS_COMERCIAL',\n  'operations': 'SW2_OPERACOES',\n  'finance': 'SW3_FINANCEIRO',\n  'knowledge': 'SW4_CONHECIMENTO',\n  'monitoring': 'SW5_MONITORAMENTO'\n};\n\nreturn {\n  domain: domain,\n  intent: intentMap[domain] || 'UNKNOWN',\n  classified: true,\n  timestamp: new Date().toISOString()\n};"
+      },
+      "id": "classify-intent",
+      "name": "Classify Intent",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "booleanOperator": "OR",
+          "conditions": [
+            {
+              "value1": "{{ $node[\"Classify Intent\"].json.domain }}",
+              "condition": "equal",
+              "value2": "leads"
+            },
+            {
+              "value1": "{{ $node[\"Classify Intent\"].json.domain }}",
+              "condition": "equal",
+              "value2": "operations"
+            },
+            {
+              "value1": "{{ $node[\"Classify Intent\"].json.domain }}",
+              "condition": "equal",
+              "value2": "finance"
+            },
+            {
+              "value1": "{{ $node[\"Classify Intent\"].json.domain }}",
+              "condition": "equal",
+              "value2": "knowledge"
+            },
+            {
+              "value1": "{{ $node[\"Classify Intent\"].json.domain }}",
+              "condition": "equal",
+              "value2": "monitoring"
+            }
+          ]
+        }
+      },
+      "id": "route-by-domain",
+      "name": "Route by Domain",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {},
+      "id": "execute-sw1",
+      "name": "Execute SW1 (Leads)",
+      "type": "n8n-nodes-base.noop",
+      "typeVersion": 1,
+      "position": [1250, 100]
+    },
+    {
+      "parameters": {},
+      "id": "execute-sw2",
+      "name": "Execute SW2 (Operations)",
+      "type": "n8n-nodes-base.noop",
+      "typeVersion": 1,
+      "position": [1250, 180]
+    },
+    {
+      "parameters": {},
+      "id": "execute-sw3",
+      "name": "Execute SW3 (Finance)",
+      "type": "n8n-nodes-base.noop",
+      "typeVersion": 1,
+      "position": [1250, 260]
+    },
+    {
+      "parameters": {},
+      "id": "execute-sw4",
+      "name": "Execute SW4 (Knowledge)",
+      "type": "n8n-nodes-base.noop",
+      "typeVersion": 1,
+      "position": [1250, 340]
+    },
+    {
+      "parameters": {},
+      "id": "execute-sw5",
+      "name": "Execute SW5 (Monitoring)",
+      "type": "n8n-nodes-base.noop",
+      "typeVersion": 1,
+      "position": [1250, 420]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.notion.com/v1/pages",
+        "authentication": "genericCredentialType",
+        "genericCredentialType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer ntn_m5282633359aVro3LlGESlWzZZNHwpjF2Mq1ixQdCayfWZ"
+            },
+            {
+              "name": "Notion-Version",
+              "value": "2022-06-28"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParametersJson": "{\n  \"parent\": {\"database_id\": \"[DATABASE_ID]\"},\n  \"properties\": {\n    \"Timestamp\": {\"date\": {\"start\": \"{{ new Date().toISOString() }}\"}},\n    \"WorkflowName\": {\"title\": [{\"text\": {\"content\": \"WF_CORE_ROUTER\"}}]},\n    \"Stage\": {\"select\": {\"name\": \"Exit\"}},\n    \"ExecutionID\": {\"rich_text\": [{\"text\": {\"content\": \"{{ $node[\\\"Validate Input Core\\\"].json.request_id }}\"}}]},\n    \"Result\": {\"rich_text\": [{\"text\": {\"content\": \"Success\"}}]},\n    \"Status\": {\"select\": {\"name\": \"Success\"}},\n    \"Version\": {\"rich_text\": [{\"text\": {\"content\": \"2.0.0\"}}]},\n    \"Duration\": {\"number\": 1500}\n  }\n}"
+      },
+      "id": "log-exit",
+      "name": "Log Exit (Notion)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1450, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Error Handler\nreturn {\n  error: true,\n  message: $input.all().error?.message || 'Unknown error',\n  timestamp: new Date().toISOString(),\n  status: 'Error'\n};"
+      },
+      "id": "error-handler",
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1650, 300]
+    }
+  ],
+  "connections": {
+    "webhook-trigger": {
+      "main": [[{"node": "validate-input", "type": "main", "index": 0}]]
+    },
+    "validate-input": {
+      "main": [[{"node": "log-entry", "type": "main", "index": 0}]]
+    },
+    "log-entry": {
+      "main": [[{"node": "classify-intent", "type": "main", "index": 0}]]
+    },
+    "classify-intent": {
+      "main": [[{"node": "route-by-domain", "type": "main", "index": 0}]]
+    },
+    "route-by-domain": {
+      "main": [
+        [{"node": "execute-sw1", "type": "main", "index": 0}],
+        [{"node": "execute-sw2", "type": "main", "index": 0}],
+        [{"node": "execute-sw3", "type": "main", "index": 0}],
+        [{"node": "execute-sw4", "type": "main", "index": 0}],
+        [{"node": "execute-sw5", "type": "main", "index": 0}]
+      ]
+    },
+    "execute-sw1": {
+      "main": [[{"node": "log-exit", "type": "main", "index": 0}]]
+    },
+    "execute-sw2": {
+      "main": [[{"node": "log-exit", "type": "main", "index": 0}]]
+    },
+    "execute-sw3": {
+      "main": [[{"node": "log-exit", "type": "main", "index": 0}]]
+    },
+    "execute-sw4": {
+      "main": [[{"node": "log-exit", "type": "main", "index": 0}]]
+    },
+    "execute-sw5": {
+      "main": [[{"node": "log-exit", "type": "main", "index": 0}]]
+    },
+    "log-exit": {
+      "main": [[{"node": "error-handler", "type": "main", "index": 0}]]
+    }
+  }
+}

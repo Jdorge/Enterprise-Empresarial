@@ -1,0 +1,231 @@
+{
+  "dashboard": {
+    "title": "Nexus Enterprise - AI Agents Metrics",
+    "tags": ["nexus", "ai", "agents", "llm"],
+    "timezone": "browser",
+    "schemaVersion": 38,
+    "version": 1,
+    "refresh": "30s",
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "type": "stat",
+        "title": "Total AI Requests (24h)",
+        "gridPos": {"h": 4, "w": 6, "x": 0, "y": 0},
+        "targets": [
+          {
+            "datasource": "PostgreSQL",
+            "rawSql": "SELECT COUNT(*) as value FROM ai_agent_logs WHERE timestamp >= NOW() - INTERVAL '24 hours'",
+            "format": "table"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "thresholds"},
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "green"},
+                {"value": 1000, "color": "yellow"},
+                {"value": 5000, "color": "red"}
+              ]
+            },
+            "unit": "short"
+          }
+        }
+      },
+      {
+        "id": 2,
+        "type": "stat",
+        "title": "Total Cost (24h)",
+        "gridPos": {"h": 4, "w": 6, "x": 6, "y": 0},
+        "targets": [
+          {
+            "datasource": "PostgreSQL",
+            "rawSql": "SELECT ROUND(SUM(cost_usd)::numeric, 2) as value FROM ai_agent_logs WHERE timestamp >= NOW() - INTERVAL '24 hours'",
+            "format": "table"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "thresholds"},
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "green"},
+                {"value": 50, "color": "yellow"},
+                {"value": 100, "color": "red"}
+              ]
+            },
+            "unit": "currencyUSD"
+          }
+        }
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "Avg Response Time",
+        "gridPos": {"h": 4, "w": 6, "x": 12, "y": 0},
+        "targets": [
+          {
+            "datasource": "PostgreSQL",
+            "rawSql": "SELECT ROUND(AVG(response_time_ms)::numeric, 2) as value FROM ai_agent_logs WHERE timestamp >= NOW() - INTERVAL '1 hour'",
+            "format": "table"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "thresholds"},
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "green"},
+                {"value": 3000, "color": "yellow"},
+                {"value": 5000, "color": "red"}
+              ]
+            },
+            "unit": "ms"
+          }
+        }
+      },
+      {
+        "id": 4,
+        "type": "gauge",
+        "title": "Success Rate",
+        "gridPos": {"h": 4, "w": 6, "x": 18, "y": 0},
+        "targets": [
+          {
+            "datasource": "PostgreSQL",
+            "rawSql": "SELECT ROUND((COUNT(*) FILTER (WHERE status = 'success')::FLOAT / NULLIF(COUNT(*), 0)) * 100, 2) as value FROM ai_agent_logs WHERE timestamp >= NOW() - INTERVAL '24 hours'",
+            "format": "table"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "min": 0,
+            "max": 100,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "red"},
+                {"value": 80, "color": "yellow"},
+                {"value": 95, "color": "green"}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 5,
+        "type": "timeseries",
+        "title": "Cost Over Time (USD)",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 4},
+        "targets": [
+          {
+            "datasource": "PostgreSQL",
+            "rawSql": "SELECT date_trunc('hour', timestamp) as time, SUM(cost_usd) as cost FROM ai_agent_logs WHERE $__timeFilter(timestamp) GROUP BY 1 ORDER BY 1",
+            "format": "time_series"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "currencyUSD",
+            "custom": {
+              "drawStyle": "line",
+              "lineWidth": 2,
+              "fillOpacity": 20
+            }
+          }
+        }
+      },
+      {
+        "id": 6,
+        "type": "timeseries",
+        "title": "Requests by Agent Type",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 4},
+        "targets": [
+          {
+            "datasource": "PostgreSQL",
+            "rawSql": "SELECT date_trunc('5 minutes', timestamp) as time, agent_type, COUNT(*) as count FROM ai_agent_logs WHERE $__timeFilter(timestamp) GROUP BY 1, 2 ORDER BY 1",
+            "format": "time_series"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "lineWidth": 2,
+              "fillOpacity": 10,
+              "stacking": {"mode": "normal"}
+            }
+          }
+        }
+      },
+      {
+        "id": 7,
+        "type": "table",
+        "title": "Top 10 Most Expensive Prompts",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 12},
+        "targets": [
+          {
+            "datasource": "PostgreSQL",
+            "rawSql": "SELECT agent_type, ROUND(AVG(cost_usd)::numeric, 4) as avg_cost_usd, COUNT(*) as executions, MAX(timestamp) as last_execution FROM ai_agent_logs WHERE timestamp >= NOW() - INTERVAL '24 hours' GROUP BY agent_type ORDER BY avg_cost_usd DESC LIMIT 10",
+            "format": "table"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "type": "piechart",
+        "title": "Token Usage by Model",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 12},
+        "targets": [
+          {
+            "datasource": "PostgreSQL",
+            "rawSql": "SELECT model_name, SUM(tokens_used) as total_tokens FROM ai_agent_logs WHERE timestamp >= NOW() - INTERVAL '24 hours' GROUP BY model_name",
+            "format": "table"
+          }
+        ],
+        "options": {
+          "displayLabels": ["percent", "name"],
+          "legend": {"displayMode": "table", "placement": "right"}
+        }
+      },
+      {
+        "id": 9,
+        "type": "bargauge",
+        "title": "Response Time by Agent (P95)",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 20},
+        "targets": [
+          {
+            "datasource": "PostgreSQL",
+            "rawSql": "SELECT agent_type, PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY response_time_ms) as p95_response FROM ai_agent_logs WHERE timestamp >= NOW() - INTERVAL '6 hours' GROUP BY agent_type ORDER BY p95_response DESC",
+            "format": "table"
+          }
+        ],
+        "options": {
+          "orientation": "horizontal",
+          "displayMode": "gradient"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "unit": "ms",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "green"},
+                {"value": 2000, "color": "yellow"},
+                {"value": 5000, "color": "red"}
+              ]
+            }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,520 @@
+{
+  "title": "🌟 38 Agentes IA Enterprise + WhatsApp | Gas Solutions +842% ROI | Transformação Digital",
+  "children": [
+    {
+      "object": "block",
+      "type": "callout",
+      "callout": {
+        "icon": {
+          "type": "emoji",
+          "emoji": "🚀"
+        },
+        "color": "purple_background",
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "SISTEMA ENTERPRISE DE 38 AGENTES IA | TRANSFORMAÇÃO DIGITAL COMPLETA"
+            },
+            "annotations": {
+              "bold": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "callout",
+      "callout": {
+        "icon": {
+          "type": "emoji",
+          "emoji": "💎"
+        },
+        "color": "green_background",
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "ROI COMPROVADO: +842% | ECONOMIA: R$ 2.5M/ANO | CASE GAS SOLUTIONS: R$ 42.5K/MÊS"
+            },
+            "annotations": {
+              "bold": true,
+              "color": "green"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "divider",
+      "divider": {}
+    },
+    {
+      "object": "block",
+      "type": "divider",
+      "divider": {}
+    },
+    {
+      "object": "block",
+      "type": "heading_3",
+      "heading_3": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "📈 Métricas de Transformação - Gas Solutions"
+            },
+            "annotations": {
+              "bold": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "table",
+      "table": {
+        "table_width": 5,
+        "has_column_header": true,
+        "has_row_header": false,
+        "children": [
+          {
+            "object": "block",
+            "type": "table_row",
+            "table_row": {
+              "cells": [
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "KPI"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Antes"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Depois"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Melhoria"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Impacto Financeiro"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          {
+            "object": "block",
+            "type": "table_row",
+            "table_row": {
+              "cells": [
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Custo Operacional"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "R$ 18.000/mês"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "R$ 3.500/mês"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "-81%"
+                    },
+                    "annotations": {
+                      "color": "red"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "R$ 174.000/ano economia"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          {
+            "object": "block",
+            "type": "table_row",
+            "table_row": {
+              "cells": [
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Taxa de Conversão"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "15%"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "45%"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "+200%"
+                    },
+                    "annotations": {
+                      "color": "green"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "R$ 480.000/ano receita extra"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          {
+            "object": "block",
+            "type": "table_row",
+            "table_row": {
+              "cells": [
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Tempo de Resposta"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "30 minutos"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "<1 segundo"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "-99.9%"
+                    },
+                    "annotations": {
+                      "color": "red"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "8.760 horas/ano liberadas"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          {
+            "object": "block",
+            "type": "table_row",
+            "table_row": {
+              "cells": [
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Cobertura"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "44h/semana"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "24/7"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "+286%"
+                    },
+                    "annotations": {
+                      "color": "green"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "100% disponibilidade"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          {
+            "object": "block",
+            "type": "table_row",
+            "table_row": {
+              "cells": [
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Satisfação (NPS)"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "72"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "95"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "+32%"
+                    },
+                    "annotations": {
+                      "color": "green"
+                    }
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Liderança no mercado"
+                    },
+                    "annotations": {
+                      "color": "default"
+                    }
+                  }
+                ]
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "divider",
+      "divider": {}
+    },
+    {
+      "object": "block",
+      "type": "divider",
+      "divider": {}
+    },
+    {
+      "object": "block",
+      "type": "callout",
+      "callout": {
+        "icon": {
+          "type": "emoji",
+          "emoji": "🎯"
+        },
+        "color": "green_background",
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "AGENDE AGORA SUA DEMONSTRAÇÃO EXECUTIVA E COMECE A TRANSFORMAÇÃO!"
+            },
+            "annotations": {
+              "bold": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "object": "block",
+      "type": "code",
+      "code": {
+        "language": "bash",
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "# Para começar imediatamente:\ncurl -X POST https://api.warp-agents.ai/demo \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"company\": \"sua-empresa\",\n    \"agents_needed\": \"auto-detect\",\n    \"expected_roi\": \"10x\",\n    \"timeline\": \"14-days\"\n  }'\n\n# Ou use nosso CLI:\nwarp-agent demo --executive --priority high"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "generated_at": "2025-09-03T16:25:55.701Z",
+    "generator": "Gemini 1.5 Flash",
+    "total_agents": 38,
+    "featured_case": "Gas Solutions Engenharia",
+    "monthly_roi": "R$ 42.500"
+  }
+}
