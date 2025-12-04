@@ -1,0 +1,33 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'nexus-enterprise'
+    environment: 'development'
+
+scrape_configs:
+  # Temporal metrics
+  - job_name: 'temporal'
+    static_configs:
+      - targets: ['temporal:7233']
+    metrics_path: '/metrics'
+    
+  # Qdrant metrics
+  - job_name: 'qdrant'
+    static_configs:
+      - targets: ['qdrant:6333']
+    metrics_path: '/metrics'
+    
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Nexus Gateway (quando implementado)
+  - job_name: 'nexus-gateway'
+    static_configs:
+      - targets: ['nexus-gateway:8000']
+    metrics_path: '/metrics'
+
+rule_files:
+  - '/etc/prometheus/alerts.yml'

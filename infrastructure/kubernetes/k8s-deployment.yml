@@ -1,0 +1,532 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: production
+  labels:
+    name: production
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: n8n
+  namespace: production
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: n8n-config
+  namespace: production
+data:
+  N8N_PROTOCOL: "https"
+  N8N_HOST: "n8n.nexus.internal"
+  N8N_PORT: "5678"
+  N8N_PATH: "/"
+  N8N_LOG_LEVEL: "info"
+  N8N_SECURE_COOKIE: "true"
+  N8N_METRICS: "true"
+  N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+  N8N_SKIP_WEBHOOK_VALIDATION_FOR_LOCALHOST: "false"
+  N8N_ENCRYPTION_KEY: "${ENCRYPTION_KEY}"  # Must be injected via secret
+  NODE_TLS_REJECT_UNAUTHORIZED: "1"
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: n8n-secrets
+  namespace: production
+type: Opaque
+stringData:
+  # These should be injected from AWS Secrets Manager via external-secrets operator
+  db_host: "${DB_HOST}"
+  db_port: "5432"
+  db_user: "${DB_USER}"
+  db_password: "${DB_PASSWORD}"
+  db_name: "n8n_db"
+  redis_host: "${REDIS_HOST}"
+  redis_port: "6379"
+  redis_password: "${REDIS_PASSWORD}"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: n8n
+  namespace: production
+  labels:
+    app: n8n
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: 5678
+      protocol: TCP
+    - name: https
+      port: 443
+      targetPort: 5678
+      protocol: TCP
+    - name: metrics
+      port: 9090
+      targetPort: 9090
+      protocol: TCP
+  selector:
+    app: n8n
+  sessionAffinity: None
+  externalTrafficPolicy: Local
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: n8n-internal
+  namespace: production
+  labels:
+    app: n8n
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 5678
+      targetPort: 5678
+      protocol: TCP
+    - name: metrics
+      port: 9090
+      targetPort: 9090
+      protocol: TCP
+  selector:
+    app: n8n
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: n8n-prod
+  namespace: production
+  labels:
+    app: n8n
+    environment: production
+    version: "2025.11.17"
+spec:
+  replicas: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: n8n
+  template:
+    metadata:
+      labels:
+        app: n8n
+        environment: production
+        version: "2025.11.17"
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: n8n
+      
+      # Security context
+      securityContext:
+        fsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
+
+      # Node affinity for better resource distribution
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - n8n
+                topologyKey: kubernetes.io/hostname
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: workload
+                    operator: In
+                    values:
+                      - n8n-primary
+
+      # Tolerations for node taints
+      tolerations:
+        - key: "node.kubernetes.io/not-ready"
+          operator: "Exists"
+          effect: "NoExecute"
+          tolerationSeconds: 60
+        - key: "node.kubernetes.io/unreachable"
+          operator: "Exists"
+          effect: "NoExecute"
+          tolerationSeconds: 60
+
+      # Init container to wait for database
+      initContainers:
+        - name: wait-for-db
+          image: busybox:1.35
+          command:
+            - sh
+            - -c
+            - until nc -zv $(DB_HOST) 5432; do echo waiting for database; sleep 2; done
+          env:
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-secrets
+                  key: db_host
+
+        - name: wait-for-redis
+          image: busybox:1.35
+          command:
+            - sh
+            - -c
+            - until nc -zv $(REDIS_HOST) 6379; do echo waiting for redis; sleep 2; done
+          env:
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-secrets
+                  key: redis_host
+
+      containers:
+        - name: n8n
+          image: n8n:latest  # Replace with your ECR image URL
+          imagePullPolicy: Always
+
+          # Security context
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: false
+
+          ports:
+            - name: http
+              containerPort: 5678
+              protocol: TCP
+            - name: metrics
+              containerPort: 9090
+              protocol: TCP
+
+          env:
+            # Config from ConfigMap
+            - name: N8N_PROTOCOL
+              valueFrom:
+                configMapKeyRef:
+                  name: n8n-config
+                  key: N8N_PROTOCOL
+
+            - name: N8N_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: n8n-config
+                  key: N8N_HOST
+
+            - name: N8N_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: n8n-config
+                  key: N8N_PORT
+
+            - name: N8N_LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: n8n-config
+                  key: N8N_LOG_LEVEL
+
+            - name: N8N_METRICS
+              valueFrom:
+                configMapKeyRef:
+                  name: n8n-config
+                  key: N8N_METRICS
+
+            # Database credentials from Secret
+            - name: DB_POSTGRESDB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-secrets
+                  key: db_host
+
+            - name: DB_POSTGRESDB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-secrets
+                  key: db_port
+
+            - name: DB_POSTGRESDB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-secrets
+                  key: db_user
+
+            - name: DB_POSTGRESDB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-secrets
+                  key: db_password
+
+            - name: DB_POSTGRESDB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-secrets
+                  key: db_name
+
+            - name: DB_TYPE
+              value: "postgresdb"
+
+            # Redis cache
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-secrets
+                  key: redis_host
+
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-secrets
+                  key: redis_port
+
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-secrets
+                  key: redis_password
+
+            - name: REDIS_TLS
+              value: "true"
+
+            # Webhook settings
+            - name: WEBHOOK_TUNNEL_URL
+              value: "https://n8n.nexus.internal/"
+
+            - name: GENERICAUTH_REFRESH_TOKENS
+              value: "true"
+
+            # OpenTelemetry
+            - name: OTEL_ENABLED
+              value: "true"
+
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://otel-collector:4318"
+
+            # Pod info
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+
+          # Resource requests and limits
+          resources:
+            requests:
+              cpu: "2"
+              memory: "4Gi"
+              ephemeral-storage: "2Gi"
+            limits:
+              cpu: "4"
+              memory: "8Gi"
+              ephemeral-storage: "5Gi"
+
+          # Liveness probe
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          # Readiness probe
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 2
+
+          # Startup probe (for slower startups)
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 30
+
+          # Volume mounts
+          volumeMounts:
+            - name: data
+              mountPath: /home/node/.n8n
+            - name: tmp
+              mountPath: /tmp
+            - name: workflows
+              mountPath: /home/node/.n8n/workflows
+              readOnly: true
+
+          # Lifecycle hooks
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - sleep 15 && kill -TERM 1
+
+      # Volumes
+      volumes:
+        - name: data
+          emptyDir:
+            sizeLimit: 5Gi
+        - name: tmp
+          emptyDir:
+            sizeLimit: 2Gi
+        - name: workflows
+          configMap:
+            name: n8n-workflows
+            defaultMode: 0444
+
+      # Pod disruption budget
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: n8n-pdb
+  namespace: production
+spec:
+  minAvailable: 3
+  selector:
+    matchLabels:
+      app: n8n
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: n8n-hpa
+  namespace: production
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: n8n-prod
+  minReplicas: 5
+  maxReplicas: 20
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+        - type: Percent
+          value: 10
+          periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+        - type: Percent
+          value: 50
+          periodSeconds: 15
+        - type: Pods
+          value: 2
+          periodSeconds: 15
+      selectPolicy: Max
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: n8n-metrics
+  namespace: production
+  labels:
+    app: n8n
+spec:
+  selector:
+    matchLabels:
+      app: n8n
+  endpoints:
+    - port: metrics
+      interval: 30s
+      path: /metrics
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: n8n-network-policy
+  namespace: production
+spec:
+  podSelector:
+    matchLabels:
+      app: n8n
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 5678
+  egress:
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: TCP
+          port: 5432  # PostgreSQL
+        - protocol: TCP
+          port: 6379  # Redis
+    - to:
+        - podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53  # DNS

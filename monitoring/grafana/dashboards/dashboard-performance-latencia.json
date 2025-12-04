@@ -1,0 +1,240 @@
+{
+    "dashboard": {
+        "title": "N8N Enterprise - Performance & Latência",
+        "tags": [
+            "n8n",
+            "performance",
+            "latency"
+        ],
+        "timezone": "browser",
+        "schemaVersion": 38,
+        "refresh": "10s",
+        "time": {
+            "from": "now-6h",
+            "to": "now"
+        },
+        "panels": [
+            {
+                "id": 1,
+                "type": "timeseries",
+                "title": "Response Time Percentiles (P50/P95/P99)",
+                "gridPos": {
+                    "h": 8,
+                    "w": 24,
+                    "x": 0,
+                    "y": 0
+                },
+                "targets": [
+                    {
+                        "datasource": "PostgreSQL",
+                        "rawSql": "SELECT date_trunc('5 minutes', timestamp) as time, PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY response_time_ms) as p50, PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY response_time_ms) as p95, PERCENTILE_CONT(0.99) WITHIN GROUP (ORDER BY response_time_ms) as p99 FROM workflow_logs WHERE $__timeFilter(timestamp) AND status = 'success' GROUP BY 1 ORDER BY 1",
+                        "format": "time_series"
+                    }
+                ],
+                "fieldConfig": {
+                    "defaults": {
+                        "unit": "ms",
+                        "custom": {
+                            "drawStyle": "line",
+                            "lineWidth": 2,
+                            "fillOpacity": 0
+                        }
+                    },
+                    "overrides": [
+                        {
+                            "matcher": {
+                                "id": "byName",
+                                "options": "p50"
+                            },
+                            "properties": [
+                                {
+                                    "id": "color",
+                                    "value": {
+                                        "fixedColor": "green",
+                                        "mode": "fixed"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "matcher": {
+                                "id": "byName",
+                                "options": "p95"
+                            },
+                            "properties": [
+                                {
+                                    "id": "color",
+                                    "value": {
+                                        "fixedColor": "yellow",
+                                        "mode": "fixed"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "matcher": {
+                                "id": "byName",
+                                "options": "p99"
+                            },
+                            "properties": [
+                                {
+                                    "id": "color",
+                                    "value": {
+                                        "fixedColor": "red",
+                                        "mode": "fixed"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "options": {
+                    "tooltip": {
+                        "mode": "multi"
+                    },
+                    "legend": {
+                        "displayMode": "table",
+                        "calcs": [
+                            "mean",
+                            "max",
+                            "last"
+                        ]
+                    }
+                }
+            },
+            {
+                "id": 2,
+                "type": "heatmap",
+                "title": "Response Time Heatmap por Workflow",
+                "gridPos": {
+                    "h": 10,
+                    "w": 24,
+                    "x": 0,
+                    "y": 8
+                },
+                "targets": [
+                    {
+                        "datasource": "PostgreSQL",
+                        "rawSql": "SELECT date_trunc('minute', timestamp) as time, workflow_name, AVG(response_time_ms) as value FROM workflow_logs WHERE $__timeFilter(timestamp) GROUP BY 1, 2 ORDER BY 1, 2",
+                        "format": "table"
+                    }
+                ],
+                "options": {
+                    "calculate": false,
+                    "cellGap": 2,
+                    "color": {
+                        "scheme": "RdYlGn",
+                        "reverse": true
+                    }
+                }
+            },
+            {
+                "id": 3,
+                "type": "table",
+                "title": "Top 10 Slowest Endpoints",
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 18
+                },
+                "targets": [
+                    {
+                        "datasource": "PostgreSQL",
+                        "rawSql": "SELECT workflow_name, ROUND(AVG(response_time_ms)::numeric, 2) as avg_time_ms, MAX(response_time_ms) as max_time_ms, COUNT(*) as executions FROM workflow_logs WHERE timestamp >= NOW() - INTERVAL '24 hours' GROUP BY workflow_name ORDER BY avg_time_ms DESC LIMIT 10",
+                        "format": "table"
+                    }
+                ],
+                "fieldConfig": {
+                    "overrides": [
+                        {
+                            "matcher": {
+                                "id": "byName",
+                                "options": "avg_time_ms"
+                            },
+                            "properties": [
+                                {
+                                    "id": "custom.width",
+                                    "value": 120
+                                },
+                                {
+                                    "id": "color",
+                                    "value": {
+                                        "mode": "thresholds"
+                                    }
+                                },
+                                {
+                                    "id": "thresholds",
+                                    "value": {
+                                        "mode": "absolute",
+                                        "steps": [
+                                            {
+                                                "value": 0,
+                                                "color": "green"
+                                            },
+                                            {
+                                                "value": 3000,
+                                                "color": "yellow"
+                                            },
+                                            {
+                                                "value": 5000,
+                                                "color": "red"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "id": 4,
+                "type": "stat",
+                "title": "SLA Compliance Status",
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 18
+                },
+                "targets": [
+                    {
+                        "datasource": "PostgreSQL",
+                        "rawSql": "SELECT CASE WHEN AVG(response_time_ms) < 5000 THEN 1 ELSE 0 END as value FROM workflow_logs WHERE timestamp >= NOW() - INTERVAL '1 hour' AND status = 'success'",
+                        "format": "table"
+                    }
+                ],
+                "fieldConfig": {
+                    "defaults": {
+                        "mappings": [
+                            {
+                                "type": "value",
+                                "options": {
+                                    "0": {
+                                        "text": "❌ FORA DO SLA",
+                                        "color": "red"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "value",
+                                "options": {
+                                    "1": {
+                                        "text": "✅ DENTRO DO SLA",
+                                        "color": "green"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                "options": {
+                    "textMode": "value",
+                    "colorMode": "background",
+                    "graphMode": "none"
+                }
+            }
+        ]
+    }
+}

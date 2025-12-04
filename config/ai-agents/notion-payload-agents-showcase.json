@@ -1,0 +1,2130 @@
+{
+  "notion_payload": {
+    "parent": {
+      "database_id": "NOTION_DATABASE_ID"
+    },
+    "properties": {
+      "Name": {
+        "title": [
+          {
+            "text": {
+              "content": "🚀 37 Agentes IA + Agente Comercial WhatsApp Gas Solutions"
+            }
+          }
+        ]
+      }
+    },
+    "children": [
+      {
+        "object": "block",
+        "type": "heading_1",
+        "heading_1": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "🤖 Sistema Completo de Agentes IA"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Documentação completa dos 37 agentes IA especializados + Agente Comercial WhatsApp da Gas Solutions"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "divider",
+        "divider": {}
+      },
+      {
+        "object": "block",
+        "type": "callout",
+        "callout": {
+          "icon": {
+            "type": "emoji",
+            "emoji": "🎯"
+          },
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Sistema com 37 agentes IA organizados em 8 categorias + 1 agente comercial especializado, com roteamento inteligente automático"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "📊 Impacto Mensurável"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "bulleted_list_item",
+        "bulleted_list_item": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "⚡ 80% redução no tempo de desenvolvimento"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "bulleted_list_item",
+        "bulleted_list_item": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "🐛 87% menos bugs em produção"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "bulleted_list_item",
+        "bulleted_list_item": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "🚀 88% mais rápido no deploy"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "bulleted_list_item",
+        "bulleted_list_item": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "📚 95% de documentação atualizada"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "bulleted_list_item",
+        "bulleted_list_item": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "😊 50% aumento na satisfação da equipe"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "divider",
+        "divider": {}
+      },
+      {
+        "object": "block",
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "💬 Agente Comercial WhatsApp - Gas Solutions"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "callout",
+        "callout": {
+          "icon": {
+            "type": "emoji",
+            "emoji": "🏆"
+          },
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Agente especializado em vendas B2B via WhatsApp com IA avançada"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "toggle",
+        "toggle": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "📱 Capacidades do Agente WhatsApp"
+              },
+              "annotations": {}
+            }
+          ],
+          "children": [
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Inteligência Conversacional:"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "IA multimodal com Gemini 1.5 (texto + imagem)"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Busca em tempo real com Perplexity"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Memória de conversa (últimas 6 mensagens)"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Detecção de intenções em PT-BR"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Automação Comercial:"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Orçamentos instantâneos (estanqueidade e instalação)"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Geração automática de propostas PDF"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Agendamentos com arquivo .ics"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Upsell inteligente de manutenção"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "toggle",
+        "toggle": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "💰 ROI do Agente WhatsApp"
+              },
+              "annotations": {}
+            }
+          ],
+          "children": [
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Economia Mensal: R$ 17.500"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Aumento de Receita: R$ 25.000/mês"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Ganho Total: R$ 42.500/mês"
+                    },
+                    "annotations": {
+                      "bold": true,
+                      "color": "green"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "code",
+              "code": {
+                "language": "bash",
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "# Ativar agente comercial WhatsApp\nwarp-agent whatsapp activate --company \"gas-solutions\"\n# Resultado: 81% economia + 30% mais conversões"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "divider",
+        "divider": {}
+      },
+      {
+        "object": "block",
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "🎨 1. DESIGN AGENTS (5 agentes)"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "toggle",
+        "toggle": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Ver agentes de Design"
+              },
+              "annotations": {}
+            }
+          ],
+          "children": [
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "UI Designer - Cria interfaces completas"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "UX Researcher - Análise de usabilidade"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Brand Designer - Consistência visual"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Motion Designer - Animações fluidas"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Design System Manager - Componentes reutilizáveis"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "code",
+              "code": {
+                "language": "bash",
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "warp-agent design create-ui --theme \"gestao-obras\""
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "⚙️ 2. ENGINEERING AGENTS (7 agentes)"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "toggle",
+        "toggle": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Ver agentes de Engenharia"
+              },
+              "annotations": {}
+            }
+          ],
+          "children": [
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Backend Developer"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Desenvolve APIs REST/GraphQL, microsserviços"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "code",
+              "code": {
+                "language": "bash",
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "warp-agent eng backend --create-api \"gestao-obras\""
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Frontend Developer"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "React/Vue/Angular, otimização de performance"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "code",
+              "code": {
+                "language": "bash",
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "warp-agent eng frontend --framework react --component \"dashboard\""
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "DevOps Engineer"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "CI/CD, Docker, Kubernetes, automação"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "code",
+              "code": {
+                "language": "bash",
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "warp-agent eng devops --setup-pipeline github-actions"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Database Architect"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Schemas, otimização de queries, replicação"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "code",
+              "code": {
+                "language": "bash",
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "warp-agent eng database --optimize-schema postgres"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Security Engineer"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Auditorias, OWASP, configuração WAF"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "code",
+              "code": {
+                "language": "bash",
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "warp-agent eng security --audit-project"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Performance Engineer"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Otimização, caching, CDN, load balancing"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "code",
+              "code": {
+                "language": "bash",
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "warp-agent eng performance --analyze-bottlenecks"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "AI/ML Engineer"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Modelos ML, pipelines de dados"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "code",
+              "code": {
+                "language": "bash",
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "warp-agent eng ml --train-model \"predicao-atrasos-obra\""
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "📊 3. MARKETING AGENTS (7 agentes)"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "toggle",
+        "toggle": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Ver agentes de Marketing"
+              },
+              "annotations": {}
+            }
+          ],
+          "children": [
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "SEO Specialist - Otimização para buscadores"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Content Strategist - Planejamento editorial"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Social Media Manager - Gestão de redes"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Email Marketing Expert - Campanhas segmentadas"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Analytics Expert - Métricas e KPIs"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Growth Hacker - Crescimento acelerado"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Brand Strategist - Posicionamento de marca"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "code",
+              "code": {
+                "language": "bash",
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "warp-agent marketing analyze --competitor \"construtora-xyz\""
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "🧪 4. TESTING AGENTS (5 agentes)"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "toggle",
+        "toggle": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Ver agentes de Testes"
+              },
+              "annotations": {}
+            }
+          ],
+          "children": [
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Unit Test Engineer - Testes unitários"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Integration Tester - Testes de integração"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "E2E Test Specialist - Cypress/Playwright"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Performance Tester - Load testing JMeter/K6"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Security Tester - Penetration testing"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "code",
+              "code": {
+                "language": "bash",
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "warp-agent test generate --coverage 90 --framework jest"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "📦 5. PRODUCT AGENTS (3 agentes)"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "toggle",
+        "toggle": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Ver agentes de Produto"
+              },
+              "annotations": {}
+            }
+          ],
+          "children": [
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Product Manager - Roadmap e priorização"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Product Designer - Research e personas"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Product Analyst - Métricas e A/B testing"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "📋 6. PROJECT MANAGEMENT AGENTS (3 agentes)"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "callout",
+        "callout": {
+          "icon": {
+            "type": "emoji",
+            "emoji": "⚡"
+          },
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Foco crítico: Revolucionam a gestão automatizando horas de trabalho"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "toggle",
+        "toggle": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Ver agentes de Gestão de Projetos"
+              },
+              "annotations": {}
+            }
+          ],
+          "children": [
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Scrum Master Agent"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Facilita sprints automaticamente"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Gera relatórios de velocity"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Identifica impedimentos"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Sugere melhorias no processo"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Project Coordinator Agent"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Atualiza cronogramas em tempo real"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Aloca recursos otimizadamente"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Envia notificações automáticas"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Gera dashboards executivos"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Risk Manager Agent"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Identifica riscos proativamente"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Calcula impacto e probabilidade"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Sugere planos de mitigação"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Monitora indicadores de risco"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "code",
+              "code": {
+                "language": "bash",
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "warp-agent pm create-sprint-plan --project \"construcao-predial\" --risks high"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "🏢 7. STUDIO OPERATIONS AGENTS (5 agentes)"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "toggle",
+        "toggle": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Ver agentes de Operações"
+              },
+              "annotations": {}
+            }
+          ],
+          "children": [
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Workflow Optimizer - Processos internos"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Resource Scheduler - Agendamento inteligente"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Documentation Manager - Docs automáticos"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Communication Coordinator - Gestão de equipes"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "bulleted_list_item",
+              "bulleted_list_item": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Operations Analyst - Eficiência operacional"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "code",
+              "code": {
+                "language": "bash",
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "warp-agent studio optimize --process \"desenvolvimento\" --target 95"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "🎁 8. BONUS AGENTS (2 agentes)"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "toggle",
+        "toggle": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Ver agentes Bônus"
+              },
+              "annotations": {}
+            }
+          ],
+          "children": [
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Innovation Lab Agent"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Explora tecnologias emergentes e sugere inovações"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Creative Catalyst Agent"
+                    },
+                    "annotations": {
+                      "bold": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "object": "block",
+              "type": "paragraph",
+              "paragraph": {
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "Brainstorming automático e geração de ideias criativas"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "divider",
+        "divider": {}
+      },
+      {
+        "object": "block",
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "🚀 Como Usar o Sistema Completo"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "heading_3",
+        "heading_3": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Modo Automático (Recomendado)"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "code",
+        "code": {
+          "language": "bash",
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "# Ativa todos os agentes com roteamento inteligente\nwarp-agent activate --mode auto\n\n# Sistema analisa e roteia automaticamente\nwarp-agent execute \"Criar dashboard para monitorar obras\""
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "heading_3",
+        "heading_3": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Modo Categoria"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "code",
+        "code": {
+          "language": "bash",
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "# Ativa apenas uma categoria\nwarp-agent activate --category engineering\n\n# Trabalha com agentes específicos\nwarp-agent eng optimize-database"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "heading_3",
+        "heading_3": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Modo Específico"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "code",
+        "code": {
+          "language": "bash",
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "# Ativa agentes selecionados\nwarp-agent activate --agents \"backend-dev,database-architect\"\n\n# Executa tarefa direcionada\nwarp-agent execute \"Otimizar queries do banco\""
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "divider",
+        "divider": {}
+      },
+      {
+        "object": "block",
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "💻 Comandos Essenciais"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "code",
+        "code": {
+          "language": "bash",
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "# Inicializar sistema completo\nwarp-agent init --full-setup\n\n# Verificar status dos agentes\nwarp-agent status\n\n# Executar diagnóstico\nwarp-agent diagnose\n\n# Gerar relatório mensal\nwarp-agent report --period month --format notion\n\n# Integrar ferramentas\nwarp-agent integrate --tools \"jira,slack,github,notion\"\n\n# Modo debug\nwarp-agent execute --debug \"sua tarefa aqui\""
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "divider",
+        "divider": {}
+      },
+      {
+        "object": "block",
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "🎯 Casos de Uso Avançados"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "toggle",
+        "toggle": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Pipeline Completo de Desenvolvimento"
+              },
+              "annotations": {}
+            }
+          ],
+          "children": [
+            {
+              "object": "block",
+              "type": "code",
+              "code": {
+                "language": "bash",
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "warp-agent pipeline create \\\n  --from \"ideia\" \\\n  --to \"producao\" \\\n  --project \"app-gestao-obras\" \\\n  --auto-execute"
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "toggle",
+        "toggle": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Geração de MVP Completo"
+              },
+              "annotations": {}
+            }
+          ],
+          "children": [
+            {
+              "object": "block",
+              "type": "code",
+              "code": {
+                "language": "bash",
+                "rich_text": [
+                  {
+                    "type": "text",
+                    "text": {
+                      "content": "warp-agent mvp generate \\\n  --idea \"marketplace de materiais de construção\" \\\n  --stack \"react,node,postgres\" \\\n  --deploy \"aws\""
+                    },
+                    "annotations": {}
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "divider",
+        "divider": {}
+      },
+      {
+        "object": "block",
+        "type": "callout",
+        "callout": {
+          "icon": {
+            "type": "emoji",
+            "emoji": "🎉"
+          },
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "✅ SISTEMA TOTALMENTE OPERACIONAL - Transformando dias em horas!"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": ""
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "📄 Documentação completa do Agente WhatsApp: C:\\Users\\usuario\\gas-solutions-wa-agent\\docs\\"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      },
+      {
+        "object": "block",
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "📊 Apresentação executiva PDF: C:\\Users\\usuario\\Warp\\Outputs\\2025\\09\\Docs\\"
+              },
+              "annotations": {}
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "instructions": "Configure NOTION_API_KEY e NOTION_DATABASE_ID no .env e execute: node scripts/create-notion-agents-showcase.js"
+}

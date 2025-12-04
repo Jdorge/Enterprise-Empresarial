@@ -1,0 +1,489 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# ENTERPRISE EMPRESARIAL v2.0.0 - DOCKER COMPOSE
+# ═══════════════════════════════════════════════════════════════════════════════
+# Orquestração completa de todos os serviços da plataforma
+#
+# Uso:
+#   docker-compose up -d              # Iniciar todos os serviços
+#   docker-compose up -d postgres n8n # Iniciar serviços específicos
+#   docker-compose logs -f n8n        # Ver logs de um serviço
+#   docker-compose down               # Parar todos os serviços
+#   docker-compose down -v            # Parar e remover volumes
+# ═══════════════════════════════════════════════════════════════════════════════
+
+version: "3.8"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# NETWORKS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+networks:
+  enterprise-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+  monitoring-network:
+    driver: bridge
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# VOLUMES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+volumes:
+  postgres-data:
+    driver: local
+  redis-data:
+    driver: local
+  n8n-data:
+    driver: local
+  qdrant-data:
+    driver: local
+  temporal-data:
+    driver: local
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
+  loki-data:
+    driver: local
+  backup-data:
+    driver: local
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SERVICES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+services:
+  # ═══════════════════════════════════════════════════════════════════════════
+  # 🗄️ CORE DATABASES
+  # ═══════════════════════════════════════════════════════════════════════════
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: enterprise-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-enterprise_db}
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./infrastructure/database/init-scripts:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    networks:
+      - enterprise-network
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-admin} -d ${POSTGRES_DB:-enterprise_db}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: "1.0"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  redis:
+    image: redis:7-alpine
+    container_name: enterprise-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redis_secret}
+    volumes:
+      - redis-data:/data
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    networks:
+      - enterprise-network
+    healthcheck:
+      test:
+        ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis_secret}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # ⚙️ N8N AUTOMATION ENGINE
+  # ═══════════════════════════════════════════════════════════════════════════
+
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: enterprise-n8n
+    restart: unless-stopped
+    environment:
+      # Database
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: postgres
+      DB_POSTGRESDB_PORT: 5432
+      DB_POSTGRESDB_DATABASE: ${POSTGRES_DB:-enterprise_db}
+      DB_POSTGRESDB_USER: ${POSTGRES_USER:-admin}
+      DB_POSTGRESDB_PASSWORD: ${POSTGRES_PASSWORD}
+
+      # Authentication
+      N8N_BASIC_AUTH_ACTIVE: "true"
+      N8N_BASIC_AUTH_USER: ${N8N_BASIC_AUTH_USER:-admin}
+      N8N_BASIC_AUTH_PASSWORD: ${N8N_BASIC_AUTH_PASSWORD:?N8N password required}
+
+      # Configuration
+      N8N_HOST: ${N8N_HOST:-0.0.0.0}
+      N8N_PORT: 5678
+      N8N_PROTOCOL: ${N8N_PROTOCOL:-http}
+      WEBHOOK_URL: ${N8N_WEBHOOK_URL:-http://localhost:5678}
+      GENERIC_TIMEZONE: ${TZ:-America/Sao_Paulo}
+
+      # Features
+      N8N_METRICS: "true"
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_HIRING_BANNER_ENABLED: "false"
+      EXECUTIONS_DATA_PRUNE: "true"
+      EXECUTIONS_DATA_MAX_AGE: 168
+
+      # Security
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY}
+
+      # External Services
+      NOTION_SECRET: ${NOTION_SECRET}
+      HUBSPOT_API_KEY: ${HUBSPOT_API_KEY}
+      SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+
+    volumes:
+      - n8n-data:/home/node/.n8n
+      - ./n8n-workflows:/home/node/workflows:ro
+    ports:
+      - "${N8N_PORT:-5678}:5678"
+    networks:
+      - enterprise-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-verbose --tries=1 --spider http://localhost:5678/healthz || exit 1",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: "2.0"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.n8n.rule=Host(`n8n.localhost`)"
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # 🤖 AI & ORCHESTRATION SERVICES
+  # ═══════════════════════════════════════════════════════════════════════════
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: enterprise-qdrant
+    restart: unless-stopped
+    environment:
+      QDRANT__SERVICE__API_KEY: ${QDRANT_API_KEY:-qdrant_secret}
+    volumes:
+      - qdrant-data:/qdrant/storage
+    ports:
+      - "${QDRANT_PORT:-6333}:6333"
+      - "6334:6334"
+    networks:
+      - enterprise-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:6333/readyz || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: "1.0"
+
+  temporal:
+    image: temporalio/auto-setup:latest
+    container_name: enterprise-temporal
+    restart: unless-stopped
+    environment:
+      - DB=postgresql
+      - DB_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER:-admin}
+      - POSTGRES_PWD=${POSTGRES_PASSWORD}
+      - POSTGRES_SEEDS=postgres
+      - DYNAMIC_CONFIG_FILE_PATH=/etc/temporal/config/dynamicconfig/development.yaml
+    volumes:
+      - temporal-data:/etc/temporal
+      - ./infrastructure/temporal/dynamicconfig:/etc/temporal/config/dynamicconfig:ro
+    ports:
+      - "${TEMPORAL_PORT:-7233}:7233"
+    networks:
+      - enterprise-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "tctl cluster health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: "1.0"
+
+  temporal-ui:
+    image: temporalio/ui:latest
+    container_name: enterprise-temporal-ui
+    restart: unless-stopped
+    environment:
+      - TEMPORAL_ADDRESS=temporal:7233
+      - TEMPORAL_CORS_ORIGINS=http://localhost:8088
+    ports:
+      - "${TEMPORAL_UI_PORT:-8088}:8080"
+    networks:
+      - enterprise-network
+    depends_on:
+      - temporal
+
+  mcp-server:
+    build:
+      context: ./enterprise-ecosystem/orchestration/mcp-server
+      dockerfile: Dockerfile
+    container_name: enterprise-mcp
+    restart: unless-stopped
+    environment:
+      MCP_PORT: 8080
+      DATABASE_URL: postgresql://${POSTGRES_USER:-admin}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-enterprise_db}
+      REDIS_URL: redis://:${REDIS_PASSWORD:-redis_secret}@redis:6379/0
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      QDRANT_URL: http://qdrant:6333
+      QDRANT_API_KEY: ${QDRANT_API_KEY:-qdrant_secret}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    ports:
+      - "8080:8080"
+    networks:
+      - enterprise-network
+    depends_on:
+      - postgres
+      - redis
+      - qdrant
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: "1.0"
+
+  ai-router:
+    build:
+      context: ./enterprise-ecosystem/agents
+      dockerfile: Dockerfile
+    container_name: enterprise-ai-router
+    restart: unless-stopped
+    environment:
+      AGENT_TYPE: router
+      MCP_ENDPOINT: http://mcp-server:8080
+      TEMPORAL_ENDPOINT: temporal:7233
+      DATABASE_URL: postgresql://${POSTGRES_USER:-admin}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-enterprise_db}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    volumes:
+      - ./logs/ai-agents:/var/log/agents
+    networks:
+      - enterprise-network
+    depends_on:
+      - mcp-server
+      - temporal
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "0.5"
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # 📊 MONITORING & OBSERVABILITY
+  # ═══════════════════════════════════════════════════════════════════════════
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: enterprise-prometheus
+    restart: unless-stopped
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=${PROMETHEUS_RETENTION_TIME:-30d}"
+      - "--web.enable-lifecycle"
+      - "--web.enable-admin-api"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/prometheus/rules:/etc/prometheus/rules:ro
+      - prometheus-data:/prometheus
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    networks:
+      - enterprise-network
+      - monitoring-network
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-verbose --tries=1 --spider http://localhost:9090/-/healthy || exit 1",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "0.5"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: enterprise-grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?Grafana password required}
+      GF_SERVER_ROOT_URL: ${GRAFANA_URL:-http://localhost:3000}
+      GF_USERS_ALLOW_SIGN_UP: ${GRAFANA_ALLOW_SIGNUP:-false}
+      GF_INSTALL_PLUGINS: grafana-piechart-panel,grafana-clock-panel,grafana-polystat-panel
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_FEATURE_TOGGLES_ENABLE: publicDashboards
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    networks:
+      - enterprise-network
+      - monitoring-network
+    depends_on:
+      - prometheus
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "0.5"
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: enterprise-alertmanager
+    restart: unless-stopped
+    command:
+      - "--config.file=/etc/alertmanager/alertmanager.yml"
+      - "--storage.path=/alertmanager"
+    volumes:
+      - ./monitoring/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+    ports:
+      - "${ALERTMANAGER_PORT:-9093}:9093"
+    networks:
+      - monitoring-network
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+          cpus: "0.25"
+
+  loki:
+    image: grafana/loki:latest
+    container_name: enterprise-loki
+    restart: unless-stopped
+    command: -config.file=/etc/loki/loki-config.yml
+    volumes:
+      - ./monitoring/loki/loki-config.yml:/etc/loki/loki-config.yml:ro
+      - loki-data:/loki
+    ports:
+      - "${LOKI_PORT:-3100}:3100"
+    networks:
+      - monitoring-network
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "0.5"
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: enterprise-promtail
+    restart: unless-stopped
+    command: -config.file=/etc/promtail/promtail-config.yml
+    volumes:
+      - ./monitoring/promtail/promtail-config.yml:/etc/promtail/promtail-config.yml:ro
+      - /var/log:/var/log:ro
+      - ./logs:/app/logs:ro
+    networks:
+      - monitoring-network
+    depends_on:
+      - loki
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # 🛠️ UTILITIES
+  # ═══════════════════════════════════════════════════════════════════════════
+
+  backup:
+    image: alpine:latest
+    container_name: enterprise-backup
+    restart: unless-stopped
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - |
+        apk add --no-cache postgresql-client
+        while true; do
+          pg_dump -h postgres -U ${POSTGRES_USER:-admin} ${POSTGRES_DB:-enterprise_db} > /backups/db_backup_$$(date +%Y%m%d_%H%M%S).sql
+          find /backups -name "*.sql" -mtime +${BACKUP_RETENTION_DAYS:-30} -delete
+          sleep 86400
+        done
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - backup-data:/backups
+    networks:
+      - enterprise-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    profiles:
+      - backup

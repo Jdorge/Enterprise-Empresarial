@@ -1,0 +1,253 @@
+{
+    "dashboard": {
+        "title": "N8N Enterprise - Overview Executivo",
+        "tags": [
+            "n8n",
+            "enterprise",
+            "overview"
+        ],
+        "timezone": "browser",
+        "schemaVersion": 38,
+        "version": 1,
+        "refresh": "30s",
+        "time": {
+            "from": "now-24h",
+            "to": "now"
+        },
+        "templating": {
+            "list": [
+                {
+                    "name": "workflow",
+                    "type": "query",
+                    "label": "Workflow",
+                    "query": "SELECT DISTINCT workflow_name FROM workflow_logs ORDER BY workflow_name",
+                    "datasource": "PostgreSQL",
+                    "refresh": 1,
+                    "multi": true,
+                    "includeAll": true,
+                    "allValue": ".*"
+                }
+            ]
+        },
+        "panels": [
+            {
+                "id": 1,
+                "type": "stat",
+                "title": "Total Requests (24h)",
+                "gridPos": {
+                    "h": 4,
+                    "w": 8,
+                    "x": 0,
+                    "y": 0
+                },
+                "targets": [
+                    {
+                        "datasource": "PostgreSQL",
+                        "rawSql": "SELECT COUNT(*) as value FROM workflow_logs WHERE timestamp >= NOW() - INTERVAL '24 hours' AND workflow_name = ANY(string_to_array('${workflow}', ','))",
+                        "format": "table"
+                    }
+                ],
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "thresholds"
+                        },
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "value": 0,
+                                    "color": "green"
+                                },
+                                {
+                                    "value": 10000,
+                                    "color": "yellow"
+                                },
+                                {
+                                    "value": 50000,
+                                    "color": "red"
+                                }
+                            ]
+                        },
+                        "unit": "short"
+                    }
+                },
+                "options": {
+                    "graphMode": "area",
+                    "colorMode": "background"
+                }
+            },
+            {
+                "id": 2,
+                "type": "stat",
+                "title": "Avg Response Time",
+                "gridPos": {
+                    "h": 4,
+                    "w": 8,
+                    "x": 8,
+                    "y": 0
+                },
+                "targets": [
+                    {
+                        "datasource": "PostgreSQL",
+                        "rawSql": "SELECT ROUND(AVG(response_time_ms)::numeric / 1000, 2) as value FROM workflow_logs WHERE timestamp >= NOW() - INTERVAL '1 hour' AND status = 'success'",
+                        "format": "table"
+                    }
+                ],
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "thresholds"
+                        },
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "value": 0,
+                                    "color": "green"
+                                },
+                                {
+                                    "value": 3,
+                                    "color": "yellow"
+                                },
+                                {
+                                    "value": 5,
+                                    "color": "red"
+                                }
+                            ]
+                        },
+                        "unit": "s"
+                    }
+                }
+            },
+            {
+                "id": 3,
+                "type": "gauge",
+                "title": "Uptime SLA (30d)",
+                "gridPos": {
+                    "h": 4,
+                    "w": 8,
+                    "x": 16,
+                    "y": 0
+                },
+                "targets": [
+                    {
+                        "datasource": "PostgreSQL",
+                        "rawSql": "SELECT ROUND((COUNT(*) FILTER (WHERE status = 'success')::FLOAT / NULLIF(COUNT(*), 0)) * 100, 2) as value FROM workflow_logs WHERE timestamp >= NOW() - INTERVAL '30 days'",
+                        "format": "table"
+                    }
+                ],
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "thresholds"
+                        },
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "value": 0,
+                                    "color": "red"
+                                },
+                                {
+                                    "value": 95,
+                                    "color": "yellow"
+                                },
+                                {
+                                    "value": 99.5,
+                                    "color": "green"
+                                }
+                            ]
+                        },
+                        "unit": "percent",
+                        "max": 100,
+                        "min": 0
+                    }
+                }
+            },
+            {
+                "id": 4,
+                "type": "timeseries",
+                "title": "Requests por Workflow (6h)",
+                "gridPos": {
+                    "h": 8,
+                    "w": 24,
+                    "x": 0,
+                    "y": 4
+                },
+                "targets": [
+                    {
+                        "datasource": "PostgreSQL",
+                        "rawSql": "SELECT date_trunc('minute', timestamp) as time, workflow_name, COUNT(*) as value FROM workflow_logs WHERE $__timeFilter(timestamp) GROUP BY 1, 2 ORDER BY 1",
+                        "format": "time_series"
+                    }
+                ],
+                "fieldConfig": {
+                    "defaults": {
+                        "custom": {
+                            "drawStyle": "line",
+                            "lineInterpolation": "smooth",
+                            "fillOpacity": 10,
+                            "stacking": {
+                                "mode": "normal"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": 5,
+                "type": "barchart",
+                "title": "Top Workflows por Volume (24h)",
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 12
+                },
+                "targets": [
+                    {
+                        "datasource": "PostgreSQL",
+                        "rawSql": "SELECT workflow_name, COUNT(*) as count FROM workflow_logs WHERE timestamp >= NOW() - INTERVAL '24 hours' GROUP BY workflow_name ORDER BY count DESC LIMIT 10",
+                        "format": "table"
+                    }
+                ],
+                "options": {
+                    "orientation": "horizontal",
+                    "xField": "workflow_name",
+                    "colorByField": "count"
+                }
+            },
+            {
+                "id": 6,
+                "type": "piechart",
+                "title": "Distribuição de Status",
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 12
+                },
+                "targets": [
+                    {
+                        "datasource": "PostgreSQL",
+                        "rawSql": "SELECT status, COUNT(*) as value FROM workflow_logs WHERE timestamp >= NOW() - INTERVAL '24 hours' GROUP BY status",
+                        "format": "table"
+                    }
+                ],
+                "options": {
+                    "reduceOptions": {
+                        "values": false,
+                        "calcs": [
+                            "lastNotNull"
+                        ]
+                    },
+                    "displayLabels": [
+                        "percent",
+                        "name"
+                    ]
+                }
+            }
+        ]
+    }
+}

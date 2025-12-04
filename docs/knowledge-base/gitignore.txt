@@ -1,0 +1,93 @@
+# Jorge OS v2.0 - .gitignore
+# Data: 12/08/2025
+
+# Arquivos de credenciais e segurança
+*.env
+.env.*
+credenciais_reais.json
+chaves_api_reais.env
+*.key
+*.pem
+*.p12
+
+# Logs e métricas
+*.log
+logs/
+05_LOGS_RELATORIOS/*.log
+05_LOGS_RELATORIOS/metrics.json
+
+# Backups
+*.backup
+*.bak
+10_BACKUPS/
+backups/
+
+# Arquivos temporários
+temp/
+tmp/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Cache
+.cache/
+*.cache
+node_modules/
+.npm/
+
+# IDE e editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sistema operacional
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows
+$RECYCLE.BIN/
+Desktop.ini
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Configurações específicas locais
+config_local.yaml
+credenciais_local.json
+
+# Arquivos grandes de dados
+*.csv
+*.xlsx
+*.sql
+*.db
+*.sqlite
+*.sqlite3
+
+# Documentos sensíveis
+*_PRIVADO.*
+*_CONFIDENCIAL.*
+*_SECRETO.*

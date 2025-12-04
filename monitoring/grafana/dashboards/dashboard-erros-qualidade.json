@@ -1,0 +1,282 @@
+{
+    "dashboard": {
+        "title": "N8N Enterprise - Erros & Qualidade",
+        "tags": [
+            "n8n",
+            "errors",
+            "quality"
+        ],
+        "timezone": "browser",
+        "schemaVersion": 38,
+        "refresh": "1m",
+        "time": {
+            "from": "now-24h",
+            "to": "now"
+        },
+        "panels": [
+            {
+                "id": 1,
+                "type": "gauge",
+                "title": "Success Rate (24h)",
+                "gridPos": {
+                    "h": 6,
+                    "w": 8,
+                    "x": 0,
+                    "y": 0
+                },
+                "targets": [
+                    {
+                        "datasource": "PostgreSQL",
+                        "rawSql": "SELECT ROUND((COUNT(*) FILTER (WHERE status = 'success')::FLOAT / NULLIF(COUNT(*), 0)) * 100, 2) as value FROM workflow_logs WHERE timestamp >= NOW() - INTERVAL '24 hours'",
+                        "format": "table"
+                    }
+                ],
+                "fieldConfig": {
+                    "defaults": {
+                        "unit": "percent",
+                        "min": 0,
+                        "max": 100,
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "value": 0,
+                                    "color": "red"
+                                },
+                                {
+                                    "value": 95,
+                                    "color": "yellow"
+                                },
+                                {
+                                    "value": 98,
+                                    "color": "green"
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "id": 2,
+                "type": "gauge",
+                "title": "Error Rate (24h)",
+                "gridPos": {
+                    "h": 6,
+                    "w": 8,
+                    "x": 8,
+                    "y": 0
+                },
+                "targets": [
+                    {
+                        "datasource": "PostgreSQL",
+                        "rawSql": "SELECT ROUND((COUNT(*) FILTER (WHERE status = 'error')::FLOAT / NULLIF(COUNT(*), 0)) * 100, 2) as value FROM workflow_logs WHERE timestamp >= NOW() - INTERVAL '24 hours'",
+                        "format": "table"
+                    }
+                ],
+                "fieldConfig": {
+                    "defaults": {
+                        "unit": "percent",
+                        "min": 0,
+                        "max": 100,
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "value": 0,
+                                    "color": "green"
+                                },
+                                {
+                                    "value": 2,
+                                    "color": "yellow"
+                                },
+                                {
+                                    "value": 5,
+                                    "color": "red"
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "id": 3,
+                "type": "gauge",
+                "title": "Retry Success Rate",
+                "gridPos": {
+                    "h": 6,
+                    "w": 8,
+                    "x": 16,
+                    "y": 0
+                },
+                "targets": [
+                    {
+                        "datasource": "PostgreSQL",
+                        "rawSql": "SELECT ROUND((COUNT(*) FILTER (WHERE retry_count > 0 AND status = 'success')::FLOAT / NULLIF(COUNT(*) FILTER (WHERE retry_count > 0), 0)) * 100, 2) as value FROM workflow_logs WHERE timestamp >= NOW() - INTERVAL '24 hours'",
+                        "format": "table"
+                    }
+                ],
+                "fieldConfig": {
+                    "defaults": {
+                        "unit": "percent",
+                        "min": 0,
+                        "max": 100,
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "value": 0,
+                                    "color": "red"
+                                },
+                                {
+                                    "value": 50,
+                                    "color": "yellow"
+                                },
+                                {
+                                    "value": 80,
+                                    "color": "green"
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "id": 4,
+                "type": "timeseries",
+                "title": "Error Rate Trend (%)",
+                "gridPos": {
+                    "h": 8,
+                    "w": 24,
+                    "x": 0,
+                    "y": 6
+                },
+                "targets": [
+                    {
+                        "datasource": "PostgreSQL",
+                        "rawSql": "SELECT date_trunc('5 minutes', timestamp) as time, workflow_name, ROUND((COUNT(*) FILTER (WHERE status = 'error')::FLOAT / NULLIF(COUNT(*), 0)) * 100, 2) as error_rate FROM workflow_logs WHERE $__timeFilter(timestamp) GROUP BY 1, 2 ORDER BY 1",
+                        "format": "time_series"
+                    }
+                ],
+                "fieldConfig": {
+                    "defaults": {
+                        "unit": "percent",
+                        "custom": {
+                            "drawStyle": "line",
+                            "lineWidth": 2
+                        }
+                    }
+                },
+                "options": {
+                    "tooltip": {
+                        "mode": "multi"
+                    }
+                }
+            },
+            {
+                "id": 5,
+                "type": "piechart",
+                "title": "Error Classification",
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 14
+                },
+                "targets": [
+                    {
+                        "datasource": "PostgreSQL",
+                        "rawSql": "SELECT error_type, COUNT(*) as value FROM workflow_logs WHERE timestamp >= NOW() - INTERVAL '24 hours' AND status = 'error' GROUP BY error_type ORDER BY value DESC",
+                        "format": "table"
+                    }
+                ],
+                "options": {
+                    "displayLabels": [
+                        "percent",
+                        "name"
+                    ],
+                    "legend": {
+                        "displayMode": "table",
+                        "placement": "right"
+                    }
+                }
+            },
+            {
+                "id": 6,
+                "type": "table",
+                "title": "Top 10 Error Messages",
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 14
+                },
+                "targets": [
+                    {
+                        "datasource": "PostgreSQL",
+                        "rawSql": "SELECT error_message, COUNT(*) as count, MAX(timestamp) as last_occurrence, workflow_name FROM workflow_logs WHERE timestamp >= NOW() - INTERVAL '24 hours' AND status = 'error' GROUP BY error_message, workflow_name ORDER BY count DESC LIMIT 10",
+                        "format": "table"
+                    }
+                ],
+                "fieldConfig": {
+                    "overrides": [
+                        {
+                            "matcher": {
+                                "id": "byName",
+                                "options": "last_occurrence"
+                            },
+                            "properties": [
+                                {
+                                    "id": "custom.width",
+                                    "value": 180
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "id": 7,
+                "type": "bargauge",
+                "title": "Errors por Workflow (24h)",
+                "gridPos": {
+                    "h": 8,
+                    "w": 24,
+                    "x": 0,
+                    "y": 22
+                },
+                "targets": [
+                    {
+                        "datasource": "PostgreSQL",
+                        "rawSql": "SELECT workflow_name, COUNT(*) as errors FROM workflow_logs WHERE timestamp >= NOW() - INTERVAL '24 hours' AND status = 'error' GROUP BY workflow_name ORDER BY errors DESC",
+                        "format": "table"
+                    }
+                ],
+                "options": {
+                    "orientation": "horizontal",
+                    "displayMode": "gradient"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "value": 0,
+                                    "color": "green"
+                                },
+                                {
+                                    "value": 10,
+                                    "color": "yellow"
+                                },
+                                {
+                                    "value": 50,
+                                    "color": "red"
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}

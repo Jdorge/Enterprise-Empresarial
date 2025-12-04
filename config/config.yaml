@@ -1,0 +1,61 @@
+# Jorge OS v2.0 - Configuração Principal
+# Data: 12/08/2025
+# Versão: 2.0.0
+
+system:
+  name: "Jorge OS"
+  version: "2.0.0"
+  environment: "production"
+  debug: false
+  
+apis:
+  openai:
+    enabled: true
+    model: "gpt-4o"
+    temperature: 0.7
+    max_tokens: 2000
+    
+  anthropic:
+    enabled: true
+    model: "claude-3-opus-20240229"
+    temperature: 0.7
+    max_tokens: 2000
+    
+  google:
+    enabled: true
+    model: "gemini-1.5-pro"
+    temperature: 0.7
+    
+  notion:
+    enabled: true
+    version: "2022-06-28"
+    
+  xai:
+    enabled: true
+    model: "grok-beta"
+    temperature: 0.8
+
+monitoring:
+  enabled: true
+  prometheus_port: 9090
+  grafana_port: 3000
+  log_level: "INFO"
+  metrics_retention_days: 30
+  
+automation:
+  enabled: true
+  backup_interval_hours: 24
+  cleanup_temp_files: true
+  sync_notion_interval_hours: 6
+  
+security:
+  encryption_enabled: true
+  token_rotation_days: 90
+  audit_log_enabled: true
+  
+paths:
+  logs: "../05_LOGS_RELATORIOS/"
+  backups: "../10_BACKUPS/"
+  temp: "../temp/"
+  scripts: "../03_SCRIPTS_PYTHON/"
+  automations: "../06_AUTOMACOES/"
